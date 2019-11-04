@@ -1,41 +1,25 @@
 package io.github.twieteddy.communityanvils.commands;
 
-import io.github.twieteddy.communityanvils.Anvils;
-import io.github.twieteddy.communityanvils.CommunityAnvilsPlugin;
-import io.github.twieteddy.communityanvils.enums.MessageNode;
+import io.github.twieteddy.communityanvils.CommunityAnvils;
+import io.github.twieteddy.communityanvils.configs.AnvilConfig;
+import io.github.twieteddy.communityanvils.utils.AnvilHelper;
 import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-public class ListCommand extends SubCommand {
+public class ListSubCommand implements SubCommand {
 
-  private String permission = "communityanvils.list";
+  private final AnvilConfig anvilConfig;
 
-  public ListCommand(CommunityAnvilsPlugin plugin) {
-    super(plugin);
+  ListSubCommand(CommunityAnvils plugin) {
+    this.anvilConfig = plugin.getAnvilConfig();
   }
 
   @Override
   public boolean execute(CommandSender sender, Command cmd, String alias, List<String> args) {
 
-    if (!(sender instanceof Player)) {
-      sender.sendMessage(plugin.getMessage(MessageNode.SENDER_NOT_PLAYER));
-    }
-
-    Player p = (Player) sender;
-
-    if (p.hasPermission(permission)) {
-      p.sendMessage(plugin.getMessage(MessageNode.NO_PERMISSION));
-      return false;
-    }
-
-
-    p.sendMessage(ChatColor.DARK_GRAY + "Ambosse: ");
-
-    Anvils.getInstance().getAnvilLocations().forEach(location -> p.sendMessage(location.toString()));
-
+    sender.sendMessage(ChatColor.DARK_GRAY + "Ambosse: ");
     return true;
   }
 }

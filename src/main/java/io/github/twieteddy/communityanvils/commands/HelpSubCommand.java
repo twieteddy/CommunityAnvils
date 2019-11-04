@@ -1,21 +1,18 @@
 package io.github.twieteddy.communityanvils.commands;
 
-import io.github.twieteddy.communityanvils.CommunityAnvilsPlugin;
+import io.github.twieteddy.communityanvils.CommunityAnvils;
 import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class HelpCommand extends SubCommand {
+public class HelpSubCommand implements SubCommand {
 
-  private String permission = "communityanvils.help";
+  HelpSubCommand(CommunityAnvils plugin) {
 
-  public HelpCommand(CommunityAnvilsPlugin plugin) {
-    super(plugin);
   }
 
   @Override
   public boolean execute(CommandSender sender, Command cmd, String alias, List<String> args) {
-    sender.sendMessage(("Hallo"));
     return true;
   }
 }

@@ -1,5 +1,5 @@
 package io.github.twieteddy.communityanvils.exceptions;
 
-public class BlockAlreadyCommunityAnvilException {
+public class BlockAlreadyCommunityAnvilException extends Exception {
 
 }

@@ -1,0 +1,23 @@
+prefix: ""
+messages:
+  no-permission: "&cDu darfst den Community-Amboss nicht benutzen"
+  sender-not-player: "&eDer Befehl ist nur von einem Spieler verwendbar"
+  mode-already-set: "&eDu befindest dich bereits in einem Auswahlmodus. Du kannst ihn mit &6/communityzones abort&e abbrechen"
+  aborted: "&eAuswahl abgebrochen"
+  nothing-to-abort: "&eDu bist nicht im Auswahlmodus"
+
+  block-not-anvil: "&eDer geklickte Block ist kein Amboss"
+  block-already-community-anvil: "&eDer Block ist bereits ein Community-Anvil"
+  block-not-community-anvil: "&eDas ist kein Community-Anvil"
+
+  item-repaired: "&aDein Gegenstand wurde repariert"
+  item-not-repairable: "&eDer Gegenstand kann nicht repariert werden"
+
+  creating-started: "&eKlicke einen Amboss an, um ihn zum Community-Amboss umzuwandeln"
+  creating-aborted: "&cErstellen abgebrochen"
+
+  deleting-started: "&eKlicke einen Community-Amboss an, um ihn zu löschen"
+  deleting-aborted: "&cLöschen abgebrochen"
+
+  anvil-created: "&aAmboss wurde erstellt"
+  anvil-deleted: "&aAmboss wurde gelöscht"

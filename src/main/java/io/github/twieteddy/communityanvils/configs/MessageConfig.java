@@ -1,6 +1,6 @@
 package io.github.twieteddy.communityanvils.configs;
 
-import com.mojang.brigadier.Message;
+import io.github.twieteddy.communityanvils.CommunityAnvils;
 import io.github.twieteddy.communityanvils.enums.MessageNode;
 import java.io.File;
 import java.util.HashMap;
@@ -8,51 +8,48 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
-public class MessageConfig {
+public class MessageConfig implements Config {
 
+  private final CommunityAnvils plugin;
   private final File file;
-  private final Map<String, String> messages;
-  private YamlConfiguration yaml;
-  private Logger logger;
-  private Config config;
+  private final Map<MessageNode, String> messages;
+  private final Logger logger;
 
-  public MessageConfig(Config config) {
-    this.config = config;
-    logger = config.getLogger();
-    file = new File(config.getPlugin().getDataFolder(), "messages.yml");
-    messages = new HashMap<>();
 
+  public MessageConfig(CommunityAnvils plugin) {
+    this.plugin = plugin;
+    this.logger = plugin.getLogger();
+    this.file = new File(plugin.getDataFolder(), "messages.yml");
+    this.messages = new HashMap<>();
+
+    
     reload();
   }
 
+  @Override
   public void reload() {
     if (!file.exists()) {
-      config.getPlugin().saveResource("messages.yml", true);
+      plugin.saveResource("messages.yml", true);
     }
 
-    yaml = YamlConfiguration.loadConfiguration(file);
-    messages.clear();
+    YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 
-
-    setMessage(MessageNode.ANVIL_CREATED);
-    setMessage(MessageNode.ANVIL_DELETED);
-
+    for (MessageNode node : MessageNode.values()) {
+      try {
+        String message = yaml.getString(node.toString());
+        Objects.requireNonNull(message, String.format("No entry for %s found", node.toString()));
+        messages.put(node, ChatColor.translateAlternateColorCodes('&', message));
+        logger.fine(String.format("%s: %s", node.toString(), message));
+      } catch (NullPointerException e) {
+        logger.warning(e.getMessage());
+      }
+    }
   }
 
-  private void setMessage(String node) {
-    Objects.requireNonNull(node, "Message node not found");
-    Configuration root = Objects.requireNonNull(yaml.getRoot(), "Root empty");
-    ConfigurationSection section = Objects.requireNonNull(root.getConfigurationSection("messages"));
-
-    String message = Objects.requireNonNull(
-        section.getString(node, node),
-        String.format("Node %s not found", node));
-
-    messages.put(node, ChatColor.translateAlternateColorCodes('&', message));
+  public String getMessage(MessageNode node) {
+    return messages.getOrDefault(node, node.toString());
   }
-
 }

@@ -1,5 +1,5 @@
-package io.github.twieteddy.communityanvils.listeners;
+package io.github.twieteddy.communityanvils.exceptions;
 
-public class BlockNotCommunityAnvilException {
+public class BlockNotCommunityAnvilException extends Exception {
 
 }

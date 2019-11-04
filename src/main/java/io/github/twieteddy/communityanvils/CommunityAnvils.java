@@ -1,34 +1,37 @@
 package io.github.twieteddy.communityanvils;
 
 import io.github.twieteddy.communityanvils.commands.CommunityanvilsCommand;
-import io.github.twieteddy.communityanvils.enums.Mode;
-import io.github.twieteddy.communityanvils.enums.MessageNode;
+import io.github.twieteddy.communityanvils.configs.AnvilConfig;
+import io.github.twieteddy.communityanvils.configs.MessageConfig;
+import io.github.twieteddy.communityanvils.listeners.ModePlayerInteractListener;
 import io.github.twieteddy.communityanvils.listeners.RepairPlayerInteractListener;
-import java.util.HashMap;
-import org.bukkit.entity.Player;
+import java.util.Objects;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@SuppressWarnings("WeakerAccess")
-public class CommunityAnvilsPlugin extends JavaPlugin {
 
-  private Messages messages = new Messages(this);
-  private HashMap<Player, Mode> actionMap = new HashMap<>();
+public class CommunityAnvils extends JavaPlugin {
+
+  private MessageConfig messageConfig = null;
+  private AnvilConfig anvilConfig = null;
 
   @Override
   public void onEnable() {
-    this.getCommand("communityanvils").setExecutor(new CommunityanvilsCommand(this));
-    this.getServer().getPluginManager().registerEvents(new RepairPlayerInteractListener(this), this);
+    messageConfig = new MessageConfig(this);
+    anvilConfig = new AnvilConfig(this);
+
+    Objects.requireNonNull(getCommand("communityanvils"))
+        .setExecutor(new CommunityanvilsCommand(this));
+
+    getServer().getPluginManager().registerEvents(new RepairPlayerInteractListener(this), this);
+    getServer().getPluginManager().registerEvents(new ModePlayerInteractListener(this), this);
   }
 
-  @Override
-  public void onDisable() {
+  public MessageConfig getMessageConfig() {
+    return messageConfig;
   }
 
-  public String getMessage(MessageNode node) {
-    return messages.get(node);
+  public AnvilConfig getAnvilConfig() {
+    return anvilConfig;
   }
 
-  public HashMap<Player, Mode> getPlayerActionMap() {
-    return actionMap;
-  }
 }

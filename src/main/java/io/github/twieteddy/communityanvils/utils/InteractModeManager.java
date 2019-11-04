@@ -1,34 +1,34 @@
 package io.github.twieteddy.communityanvils.utils;
 
-import io.github.twieteddy.communityanvils.enums.NextInteract;
+import io.github.twieteddy.communityanvils.enums.InteractMode;
 import java.util.HashMap;
 import org.bukkit.entity.Player;
 
-public class InteractStateManager {
+public class InteractModeManager {
 
-  private static InteractStateManager instance = null;
-  private HashMap<Player, NextInteract> playerInteract = new HashMap<>();
+  private static InteractModeManager instance = null;
+  private final HashMap<Player, InteractMode> playerInteract = new HashMap<>();
 
-  private InteractStateManager() {
+  private InteractModeManager() {
   }
 
-  public static InteractStateManager getInstance() {
+  public static InteractModeManager getInstance() {
     if (instance == null) {
-      instance = new InteractStateManager();
+      instance = new InteractModeManager();
     }
     return instance;
   }
 
-  public void setState(Player p, NextInteract stage) {
+  public void setState(Player p, InteractMode stage) {
     playerInteract.put(p, stage);
   }
 
-  public NextInteract getState(Player p) {
-    return playerInteract.getOrDefault(p, NextInteract.NONE);
+  public InteractMode getState(Player p) {
+    return playerInteract.getOrDefault(p, InteractMode.NONE);
   }
 
-  public NextInteract removeState(Player p) {
-    return playerInteract.containsKey(p) ? playerInteract.remove(p) : NextInteract.NONE;
+  public InteractMode removeState(Player p) {
+    return playerInteract.containsKey(p) ? playerInteract.remove(p) : InteractMode.NONE;
   }
 
   public boolean containsPlayer(Player p) {

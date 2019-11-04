@@ -1,6 +1,6 @@
 package io.github.twieteddy.communityanvils.enums;
 
-public enum Message {
+public enum MessageNode {
 
   PREFIX("prefix"),
   NO_PERMISSION("messages.no-permission"),
@@ -22,7 +22,7 @@ public enum Message {
 
   String node;
 
-  Message(String text) {
+  MessageNode(String text) {
     node = text;
   }
 

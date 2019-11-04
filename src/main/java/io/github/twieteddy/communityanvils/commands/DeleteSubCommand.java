@@ -1,41 +1,40 @@
 package io.github.twieteddy.communityanvils.commands;
 
-import io.github.twieteddy.communityanvils.CommunityAnvilsPlugin;
-import io.github.twieteddy.communityanvils.enums.Mode;
+import io.github.twieteddy.communityanvils.CommunityAnvils;
+import io.github.twieteddy.communityanvils.configs.MessageConfig;
+import io.github.twieteddy.communityanvils.enums.InteractMode;
 import io.github.twieteddy.communityanvils.enums.MessageNode;
-import java.util.HashMap;
+import io.github.twieteddy.communityanvils.utils.InteractModeManager;
 import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DeleteCommand extends SubCommand {
+public class DeleteSubCommand implements SubCommand {
 
-  private static String permission = "communityanvils.delete";
+  private final MessageConfig messages;
 
-  public DeleteCommand(CommunityAnvilsPlugin plugin) {
-    super(plugin);
+  DeleteSubCommand(CommunityAnvils plugin) {
+    this.messages = plugin.getMessageConfig();
   }
 
   @Override
   public boolean execute(CommandSender sender, Command cmd, String alias, List<String> args) {
 
     if (!(sender instanceof Player)) {
-      sender.sendMessage(plugin.getMessage(MessageNode.SENDER_NOT_PLAYER));
+      sender.sendMessage(messages.getMessage(MessageNode.SENDER_NOT_PLAYER));
+      return false;
     }
 
     Player p = (Player) sender;
-    HashMap<Player, Mode> playerActionMap = plugin.getPlayerActionMap();
+    InteractModeManager manager = InteractModeManager.getInstance();
 
-    if (!playerActionMap.containsKey(p)) {
-      playerActionMap.put(p, Mode.DELETE);
-      p.sendMessage(plugin.getMessage(MessageNode.DELETING_STARTED));
-      return true;
-    }
-
-
-    if (playerActionMap.get(p) != Mode.DELETE) {
-      p.sendMessage(plugin.getMessage(MessageNode.MODE_ALREADY_SET));
+    if (manager.getState(p) != InteractMode.DELETE) {
+      manager.setState(p, InteractMode.DELETE);
+      p.sendMessage(messages.getMessage(MessageNode.DELETING_STARTED));
+    } else {
+      manager.removeState(p);
+      p.sendMessage(messages.getMessage(MessageNode.DELETING_ABORTED));
     }
 
     return true;

@@ -1,8 +1,11 @@
 package io.github.twieteddy.communityanvils.commands;
 
-import org.bukkit.command.CommandExecutor;
+import java.util.List;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 
-public abstract class SubCommand implements CommandExecutor {
+interface SubCommand {
 
-
+  @SuppressWarnings("unused")
+  boolean execute(CommandSender sender, Command cmd, String alias, List<String> args);
 }

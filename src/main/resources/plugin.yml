@@ -1,0 +1,21 @@
+name: CommunityAnvils
+version: "1.0"
+api-version: "1.13"
+description: "Create community anvils with infinite usages"
+
+author: Teddy
+website: https://twieteddy.github.io
+
+main: io.github.twieteddy.communityanvils.CommunityAnvils
+database: false
+
+permissions:
+  communityanvils.use:
+    default: false
+  communityanvils.admin:
+    default: op
+
+commands:
+  communityanvils:
+    description: Allows you to create and delete community anvils
+    permission: communityanvils.admin
